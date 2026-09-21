@@ -57,18 +57,19 @@ nunca se denuncia. Fora da dobra ou com a aba escondida, as duas param.
 
 ## Ativos
 
-**A fotografia não está no repositório.** Clonar e abrir mostra a página
-inteira — estrutura, tipografia, cores, o trilho do hero, a fumaça —, mas com
-as imagens faltando. É de propósito: as fotos usadas no desenvolvimento eram
-temporárias e não são nossas para publicar.
+**A fotografia em `images/` é temporária, de demonstração.** Ela está aqui para
+o site rodar, não porque seja definitiva: antes de virar site de verdade,
+substitua por fotografia própria mantendo os mesmos nomes de arquivo. Os
+caminhos estão todos centralizados em `images/`, então nenhuma linha de código
+precisa mudar.
 
-`images/README.md` lista tudo o que precisa existir, com nome, medida e
-finalidade de cada arquivo, mais o script que remede `BURGER_BOUNDS` quando os
-72 quadros do hambúrguer forem trocados. Gerando os arquivos com aqueles nomes,
-nenhuma linha de código precisa mudar.
+`images/README.md` lista cada arquivo com nome, medida e finalidade, e traz o
+script que remede `BURGER_BOUNDS` quando os 72 quadros do hambúrguer forem
+trocados — essa medida é o que impede o hambúrguer aberto de ser cortado, então
+ela não pode ficar para trás.
 
-A marca é desenho original e está aqui: o símbolo e o wordmark (sprites SVG
-dentro do `index.html`), o `favicon.svg`, o `apple-touch-icon.png` e o
+A marca é desenho original: o símbolo e o wordmark (sprites SVG dentro do
+`index.html`), o `favicon.svg`, o `apple-touch-icon.png` e o
 `images/webp/master-logo.webp`.
 
 ## Créditos
