@@ -1,0 +1,19 @@
+# A referência é material de terceiros, baixada só para estudo do estilo e das
+# técnicas. Fica na máquina e nunca entra no repositório.
+referencia/
+
+# Ativos de teste. As fotos, os ícones de categoria, as placas do salão e os 72
+# quadros do hambúrguer vieram da referência e servem só para rodar o site
+# localmente — não são nossos para publicar. images/README.md lista o que
+# precisa existir aqui, com os nomes e as medidas exatas.
+images/webp/*
+images/burger/
+
+# A marca é desenho original e fica: o logo do cabeçalho e do rodapé.
+!images/webp/master-logo.webp
+
+# Ferramentas de prévia e ruído do sistema
+node_modules/
+.claude/
+Thumbs.db
+.DS_Store

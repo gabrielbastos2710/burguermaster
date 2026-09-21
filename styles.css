@@ -1,0 +1,2562 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Burguer Master — folha única, sem build.
+
+   A ordem aqui é a ordem da página: tokens, base, cabeçalho, hero (com o
+   trilho da abertura), cardápio, seções de texto, rodapé, sacola, telas
+   estreitas e, no fim, o bloco de movimento. Nada de utilitários soltos: cada
+   regra mora junto da peça que ela descreve.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Tema escuro (padrão) — carvão quente + vermelho da casa ─────────────
+     O escuro é o padrão porque a hamburgueria abre à noite e o produto é
+     fotografado com luz baixa: papel claro devolveria o contraste ao fundo,
+     e é a carne que precisa dele. */
+  color-scheme: dark;
+
+  /* Marca */
+  --brand: #f92a26;
+  --brand-hover: #ff4c47;
+  --brand-text: #ff5a55;
+  --on-brand: #111419;
+  --brand-soft: #4d1518;
+  --promo-fallback: #2c090d;
+
+  /* Superfícies */
+  --paper: #111419;
+  --surface: #1f2329;
+  --dark: #06080c;
+  --footer-surface: #181c22;
+
+  /* Texto */
+  --ink: #f1f3f8;
+  --muted: #b1b8c3;
+  --muted-light: #9299a5;
+  --white: #ffffff;
+  --footer-copy: #aab0ba;
+  --craft-copy: #b8bec8;
+  --craft-copy-soft: #9fa5af;
+
+  /* Linhas */
+  --border: #6e737d;
+  --border-soft: #40444b;
+  --footer-border: #494d55;
+  --craft-border: #1a1e25;
+
+  /* Sobreposições */
+  --header-bg: rgba(17, 20, 25, 0.85);
+  --header-bg-solid: rgba(17, 20, 25, 0.98);
+  --header-fade: rgba(17, 20, 25, 0);
+  --backdrop: rgba(4, 6, 9, 0.7);
+  --footer-top-border: rgba(255, 255, 255, 0.06);
+  --promo-overlay: linear-gradient(90deg, rgba(9, 4, 5, 0.9), rgba(9, 4, 5, 0.05) 76%);
+  --promo-overlay-mobile: linear-gradient(0deg, rgba(9, 4, 5, 0.93), rgba(9, 4, 5, 0.1) 80%);
+
+  /* Estados */
+  --green: #58cd78;
+  --danger: #f75d59;
+  --focus-ring: #ff5a55;
+
+  /* Peças específicas */
+  --button-light-fg: #14171c;
+  --toast-bg: #2b2f36;
+  --toast-fg: #f1f3f8;
+  --toast-border: rgba(255, 255, 255, 0.1);
+
+  /* Elevação — três níveis, todos com deslocamento e desfoque */
+  --shadow-sm: 0 1px 2px rgba(3, 5, 8, 0.5), 0 6px 16px rgba(3, 5, 8, 0.38);
+  --shadow-lg: 0 12px 40px rgba(3, 5, 8, 0.6);
+  --shadow-drawer: -20px 0 60px rgba(3, 5, 8, 0.65);
+
+  /* Geometria */
+  --container: 1240px;
+  --radius: 4px;
+  --radius-lg: 14px;
+  --section: clamp(64px, 8vw, 104px);
+
+  /* Tipografia — uma família, três pesos, cinco tamanhos + display */
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --text-xs: 0.75rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+
+  /* Movimento — uma curva, três durações. Detalhe em "Movimento", no fim. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-tap: 110ms;
+  --dur-state: 200ms;
+  --dur-enter: 520ms;
+
+  /* Grão fino, em token porque duas peças distantes precisam do mesmo ruído,
+     na mesma densidade: o palco do hero e a faixa que o dissolve. É essa
+     continuidade que apaga a emenda entre os dois.
+
+     Por que existe: um quase-preto em rampa banda numa tela de 8 bits — a
+     rampa do palco anda um nível a cada oito pixels, exatamente onde o olho
+     enxerga anel. O ruído é o dither que quebra o anel, e de quebra dá à luz
+     a textura de fotografia noturna que o resto do palco promete. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] {
+  /* ── Tema claro — ative com <html data-theme="light"> ────────────────────
+     Mesma marca, mesmo esqueleto: só as superfícies e o texto viram. O palco
+     do hero não participa da troca (ver a Regra do Palco Fixo, mais abaixo). */
+  color-scheme: light;
+
+  --brand: #f92a26;
+  --brand-hover: #ff4c47;
+  --brand-text: #c91e29;
+  --on-brand: #111419;
+  --brand-soft: #ffe9e8;
+  --promo-fallback: #5a0e15;
+
+  --paper: #fefaf7;
+  --surface: #ffffff;
+  --dark: #17120f;
+  --footer-surface: #241e1b;
+
+  --ink: #1b1816;
+  --muted: #68615d;
+  --muted-light: #746c67;
+  --white: #ffffff;
+  --footer-copy: #c7bdb8;
+  --craft-copy: #bbb3ae;
+  --craft-copy-soft: #aaa19c;
+
+  --border: #ebe5e1;
+  --border-soft: #f2eeeb;
+  --footer-border: #332b27;
+  --craft-border: #302824;
+
+  --header-bg: rgba(254, 250, 247, 0.92);
+  --header-bg-solid: rgba(254, 250, 247, 0.98);
+  --header-fade: rgba(254, 250, 247, 0);
+  --backdrop: rgba(27, 18, 14, 0.45);
+  --footer-top-border: transparent;
+  --promo-overlay: linear-gradient(90deg, rgba(90, 14, 21, 0.72), rgba(90, 14, 21, 0.04) 76%);
+  --promo-overlay-mobile: linear-gradient(0deg, rgba(90, 14, 21, 0.82), rgba(90, 14, 21, 0.08) 80%);
+
+  --green: #26752d;
+  --danger: #b91823;
+  --focus-ring: #a91520;
+
+  --button-light-fg: var(--brand-text);
+  --toast-bg: #1b1816;
+  --toast-fg: #ffffff;
+  --toast-border: transparent;
+
+  --shadow-sm: 0 1px 2px rgba(48, 29, 18, 0.06), 0 6px 16px rgba(48, 29, 18, 0.06);
+  --shadow-lg: 0 12px 40px rgba(48, 29, 18, 0.14);
+  --shadow-drawer: -20px 0 60px rgba(36, 19, 11, 0.18);
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Folga para o cabeçalho grudado não cobrir o título da seção-alvo */
+  scroll-padding-top: 100px;
+}
+
+body {
+  margin: 0;
+  /* clip, e não hidden: o letreiro do hero sangra fora do container e não
+     pode criar barra horizontal, mas position: sticky precisa continuar
+     valendo — e hidden no body quebraria o grude do cabeçalho. */
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--text-md);
+  caret-color: var(--brand);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.drawer-open {
+  overflow: hidden;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+textarea {
+  caret-color: var(--brand);
+}
+
+::selection {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--paper);
+  border-radius: var(--radius);
+  background: var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-light);
+}
+
+/* Dois anéis: o de dentro separa o foco do fundo, o de fora é a marca.
+   Funciona sobre o papel, sobre o palco escuro e sobre a foto do promo. */
+:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--focus-ring);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 200;
+  transform: translateY(-160%);
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  background: var(--dark);
+  color: white;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.container {
+  width: min(calc(100% - 48px), var(--container));
+  margin-inline: auto;
+}
+
+.brand-sprite,
+.icon-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ── Ícones ──────────────────────────────────────────────────────────────── */
+.icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  fill: none;
+  pointer-events: none;
+}
+
+/* ── Cabeçalho ───────────────────────────────────────────────────────────────
+   Sem borda e sem faixa: uma linha reta atravessando a foto do hero é a
+   primeira coisa que denuncia um cabeçalho colado. Aqui o desfoque e o véu
+   descem 38px além da barra e se apagam num degradê, então o que separa o
+   cabeçalho do conteúdo é uma transição, não uma aresta. São dois pseudos
+   porque um só não dá conta: o ::before é o vidro (backdrop-filter com
+   máscara própria) e o ::after é a tinta.
+   ───────────────────────────────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  isolation: isolate;
+  background: transparent;
+}
+
+.site-header::before,
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 -38px;
+  pointer-events: none;
+}
+
+.site-header::before {
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.5) 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 46%, rgba(0, 0, 0, 0.5) 72%, transparent 100%);
+}
+
+.site-header::after {
+  background: linear-gradient(
+    to bottom,
+    var(--header-bg) 0%,
+    var(--header-bg) 44%,
+    var(--header-fade) 100%
+  );
+}
+
+.header-inner {
+  position: relative;
+  z-index: 1;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2.4vw, 34px);
+}
+
+/* No desktop o painel se dissolve e os dois filhos entram direto na barra;
+   abaixo de 820px ele vira a gaveta que o botão de menu abre. */
+.header-menu {
+  display: contents;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  flex: none;
+  color: var(--ink);
+}
+
+.brand-logo {
+  display: block;
+  width: 144px;
+  height: auto;
+  flex: none;
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.brand:hover .brand-logo {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 38px);
+  flex: 1;
+}
+
+.main-nav a {
+  position: relative;
+  /* O padding vertical é a área de toque: o link ocupa a barra inteira,
+     mesmo com o texto tendo 14px de corpo. */
+  padding-block: 28px 25px;
+  color: var(--muted);
+  font-size: var(--text-base);
+  font-weight: 700;
+  transition: color 160ms ease;
+}
+
+/* Filete curto sob o item, que cresce do centro. O mesmo gesto reaparece na
+   miniatura ativa do hero — é o único indicador de seleção do site. */
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  width: 18px;
+  height: 2px;
+  transform: translateX(-50%) scaleX(0);
+  background: var(--brand);
+  transition: transform 160ms ease;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--ink);
+}
+
+.main-nav a.active::after,
+.main-nav a:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Busca: campo estreito em repouso, que cresce ao receber o cursor.
+   Sem botão de envio — o cardápio já filtra a cada tecla. */
+.header-search {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: none;
+  width: 196px;
+  /* margin-left: auto encosta o campo à direita, então ele cresce para a
+     esquerda sozinho — uma propriedade de layout animada em vez de duas. */
+  margin-left: auto;
+  padding: 0 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius);
+  background: transparent;
+  transition: width 280ms var(--ease-out), border-color 160ms ease;
+}
+
+.header-search:focus-within {
+  width: 312px;
+  border-color: var(--brand);
+}
+
+.header-search .icon {
+  width: 17px;
+  height: 17px;
+  color: var(--muted-light);
+  transition: color 160ms ease;
+}
+
+.header-search:focus-within .icon {
+  color: var(--brand-text);
+}
+
+.header-search input {
+  min-width: 0;
+  flex: 1;
+  align-self: stretch;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-base);
+}
+
+/* A moldura inteira já é o indicador de foco; o anel padrão ficaria preso
+   dentro dela e apareceria como um segundo retângulo. */
+.header-search input:focus-visible {
+  outline: 0;
+  box-shadow: none;
+}
+
+.header-search input::placeholder {
+  color: var(--muted-light);
+}
+
+.header-search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.icon-button {
+  border: 0;
+  background: transparent;
+}
+
+.menu-toggle {
+  width: 44px;
+  height: 44px;
+  display: none;
+  place-content: center;
+  gap: 5px;
+  margin-left: auto;
+  border-radius: var(--radius);
+}
+
+.menu-toggle span {
+  width: 20px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.cart-button {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px 7px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.cart-button .icon {
+  color: var(--brand-text);
+}
+
+.cart-copy {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.cart-copy strong {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.cart-copy small {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* O botão já soletra a contagem em texto; a pastilha só existe onde
+   .cart-copy some, ou seja, na barra estreita. */
+.cart-badge {
+  display: none;
+  min-width: 26px;
+  height: 26px;
+  place-items: center;
+  padding-inline: 6px;
+  border-radius: var(--radius);
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ═══ Hero ═══════════════════════════════════════════════════════════════════
+   O trilho da abertura.
+
+   O hero não rola junto com a página: ele gruda no topo enquanto
+   .hero-scroll-fuel — a única fonte de altura extra do trilho — é consumida.
+   Nesse trecho a página parece parada e só o hambúrguer se move: abre,
+   descansa um instante aberto e fecha. Fechada a volta, o grude solta sozinho
+   e o site segue.
+
+   Tudo isso mora atrás de .is-armed. Sem script, com movimento reduzido ou
+   com os quadros ainda no ar, o wrapper tem altura automática, o combustível
+   é zero e o hero se comporta como um carrossel comum.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.hero-scroll {
+  position: relative;
+}
+
+/* Preso, o hero precisa cobrir a dobra inteira: qualquer sobra abaixo dele
+   viraria uma faixa de página vazia parada na tela durante todo o percurso.
+   A regra vem de .is-staged, posta assim que o script decide que vai tentar a
+   sequência — antes de os quadros chegarem —, para a altura já nascer certa e
+   nada pular quando o efeito armar. */
+.hero-scroll.is-staged > .hero {
+  min-height: calc(100svh - var(--hero-pin-top, 78px));
+}
+
+.hero-scroll.is-armed > .hero {
+  position: sticky;
+  top: var(--hero-pin-top, 78px);
+}
+
+.hero-scroll-fuel {
+  height: 0;
+  pointer-events: none;
+}
+
+.hero-scroll.is-armed > .hero-scroll-fuel {
+  height: var(--burger-track, 0px);
+}
+
+/* ── O palco ─────────────────────────────────────────────────────────────────
+   Regra do Palco Fixo: as cores abaixo não são tokens de tema. O hero é
+   escuro no claro e no escuro, porque o contraste do produto não pode
+   depender da preferência do sistema — a mesma foto, o mesmo preto. */
+.hero {
+  --stage: #06080c;
+  --hero-fg: #f1f3f8;
+  --hero-fg-soft: #b1b8c3;
+  --hero-fg-dim: #9299a5;
+  --hero-accent: #f92a26;
+  --hero-line: rgba(255, 255, 255, 0.16);
+  --hero-line-dim: rgba(255, 255, 255, 0.2);
+  /* O letreiro de fundo é um degrau acima do palco: presente, nunca
+     protagonista. Translúcido, e não chapado: sobre o palco liso dá o mesmo
+     cinza-azulado de sempre, mas deixa quase metade do salão passar — sem
+     isso ele vira uma placa fria recortada por cima da luz quente. */
+  --hero-ghost: rgba(88, 101, 119, 0.55);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  align-items: stretch;
+  min-height: calc(100vh - 78px);
+  min-height: min(820px, calc(100svh - 78px));
+  padding: clamp(26px, 3.2vw, 44px) 0 clamp(24px, 2.8vw, 36px);
+  background: var(--stage);
+  color: var(--hero-fg);
+}
+
+/* ── O salão ao fundo ────────────────────────────────────────────────────────
+   Uma foto do salão à noite, borrada até sobrar só a luz. Ela não conta o que
+   é o lugar — conta que há um lugar quente atrás do produto, e nada nela pode
+   competir com o hambúrguer que está na frente.
+
+   O desfoque está assado no arquivo, não no filtro do browser: as duas placas
+   são a mesma foto em duas profundidades de Gaussian, guardadas em 420 e
+   280px de largura, porque depois de borrada não sobra detalhe que justifique
+   pixel. O que anima são só transform e opacity — as duas propriedades que o
+   compositor resolve sem repintar. Nenhum blur é recalculado por quadro, em
+   nenhum aparelho.
+
+   A respiração é a mistura entre as duas camadas: quando a menos borrada
+   aparece o conjunto parece focar, quando ela some afunda na mais funda. Os
+   ciclos têm períodos primos entre si (26s e 17s), então a volta ao mesmo
+   quadro leva minutos e o laço nunca se denuncia.
+   ───────────────────────────────────────────────────────────────────────── */
+.hero-room {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-room-plate {
+  position: absolute;
+  /* Sangra fora do corte: no fim da aproximação a foto ainda cobre a seção. */
+  inset: -8%;
+  background-position: center 45%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* A foto é ambiente, não assunto. O contraste segura o preto no preto
+     enquanto o brilho deixa só as lâmpadas passarem: sobra a luz, não a sala. */
+  filter: brightness(0.92) contrast(1.14) saturate(1.02);
+  transform: scale(1.04);
+  animation: hero-room-approach 26s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+
+.hero-room-deep {
+  background-image: url("images/webp/hero-room-deep.webp");
+}
+
+.hero-room-soft {
+  background-image: url("images/webp/hero-room-soft.webp");
+  opacity: 0.55;
+  /* Mesma aproximação da camada de baixo, para as duas andarem coladas. */
+  animation:
+    hero-room-approach 26s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate,
+    hero-room-breathe 17s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
+}
+
+@keyframes hero-room-approach {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.15) translate3d(-1.2%, -1.6%, 0);
+  }
+}
+
+@keyframes hero-room-breathe {
+  from {
+    opacity: 0.62;
+  }
+  to {
+    opacity: 0.08;
+  }
+}
+
+/* Véu de legibilidade, não decoração: derruba o salão até o piso do palco e
+   abre uma clareira escura embaixo, onde moram nome, preço e botão. */
+.hero-room-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      82% 62% at 50% 40%,
+      rgba(6, 8, 12, 0) 0%,
+      rgba(6, 8, 12, 0.34) 54%,
+      rgba(6, 8, 12, 0.82) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(6, 8, 12, 0.88) 0%,
+      rgba(6, 8, 12, 0.22) 24%,
+      rgba(6, 8, 12, 0.32) 54%,
+      rgba(6, 8, 12, 0.8) 84%,
+      var(--stage) 97%
+    );
+}
+
+.hero-room-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: var(--grain);
+  background-size: 140px 140px;
+}
+
+/* Fora da primeira dobra, ou com a aba escondida, o salão para: página parada
+   não compõe quadro. script.js liga e desliga as duas classes. */
+.hero-room.is-still .hero-room-plate,
+.hero-room.is-hidden .hero-room-plate {
+  animation-play-state: paused;
+}
+
+/* A fumaça é a camada mais funda do palco e não sai daqui: o overflow do
+   .hero recorta o canvas na primeira dobra, e o z-index 0 a deixa sob o
+   .hero-stage inteiro — letreiro, hambúrguer, ficha e controles. */
+.hero-smoke {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 900ms ease;
+  /* Sem isto, o overflow do hero corta a partícula ao meio e sobra um risco
+     reto no pé da seção — justo onde o palco deveria estar se dissolvendo. */
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 74%, rgba(0, 0, 0, 0) 97%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 74%, rgba(0, 0, 0, 0) 97%);
+}
+
+/* Só aparece depois do primeiro quadro pronto, para não haver estalo. */
+.hero-smoke.is-ready {
+  opacity: 1;
+}
+
+.hero-smoke canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── O palco, por dentro ─────────────────────────────────────────────────────
+   O conteúdo sobe um degrau inteiro acima da fumaça; as camadas internas
+   (foto em 1, ficha e controles em 2) seguem valendo entre si.
+
+   Duas faixas, uma coluna: em cima o palco (letreiro, foto, controles);
+   embaixo a linha de base, onde a ficha e o rodapé do carrossel dividem a
+   mesma célula e terminam na mesma altura. A coluna é declarada para que
+   nenhum filho com faixa explícita abra uma segunda coluna implícita. */
+.hero-stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: clamp(18px, 2.4vw, 30px);
+}
+
+/* Uma célula só: letreiro e foto se empilham nela, centrados na faixa de
+   cima. A ficha não mora aqui de propósito — enquanto era filha do frame, só
+   alcançava o fim desta faixa, e era isso que a deixava em cima do letreiro. */
+.hero-frame {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.hero-frame > * {
+  grid-area: 1 / 1;
+}
+
+/* Largura maior que 100%: o letreiro sangra além do container e é o overflow
+   do hero que o corta. É o que faz dele um letreiro de fachada, e não uma
+   figura centrada com margem dos dois lados. */
+.hero-title {
+  width: min(128%, 1460px);
+  margin: 0;
+  pointer-events: none;
+}
+
+.hero-wordmark {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--hero-ghost);
+}
+
+.hero-photos {
+  position: relative;
+  z-index: 1;
+  height: min(54vh, 470px);
+  aspect-ratio: 1000 / 1060;
+}
+
+/* A sombra desceu da caixa para a foto: o canvas da sequência precisa da
+   dele, que afrouxa conforme a pilha abre, e um filtro no pai valeria para
+   os dois. */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  visibility: hidden;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+  transition: opacity 260ms ease, visibility 260ms;
+}
+
+.hero-photo.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* O canvas da sequência não cabe na caixa da foto — aberto, o hambúrguer tem
+   quase o dobro da altura que tinha fechado. Ele fica centrado sobre a mesma
+   caixa, mas com medidas próprias: o script as deriva do espaço livre entre o
+   cabeçalho e a ficha, e é esse cálculo que garante que nenhum quadro chegue
+   perto de ser cortado. Fechado, reproduz a foto parada ao pixel — é o que
+   torna a troca foto→canvas invisível. */
+.hero-burger-canvas {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--burger-box-w, 100%);
+  height: var(--burger-box-h, 100%);
+  translate: -50% calc(-50% + var(--burger-box-shift, 0px));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 260ms ease, visibility 260ms;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, calc(0.6 * var(--burger-ground, 1))));
+}
+
+.hero-photos.has-burger-scrubber .hero-burger-canvas.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-photos.has-burger-scrubber .hero-photo[data-hero-item="2"].is-active {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Entrando, a troca é seca. A foto e o canvas mostram o mesmo hambúrguer, no
+   mesmo lugar e do mesmo tamanho — um cross-fade entre imagens idênticas não
+   suaviza nada, só produz um piscar de 25% no meio do caminho, porque as duas
+   passam por opacidade parcial ao mesmo tempo. Saindo, a regra deixa de valer
+   e o fade volta: aí o canvas cede lugar a uma foto diferente. */
+.hero-photos.has-burger-scrubber .hero-burger-canvas.is-active,
+.hero-photos.has-burger-scrubber .hero-photo[data-hero-item="2"].is-active {
+  transition: none;
+}
+
+/* O momento animado do hero: a foto que entra, do desfoque ao foco. */
+.hero-photo.is-entering {
+  animation: hero-slide-in 620ms var(--ease-out) backwards;
+}
+
+/* A sombra vem primeiro de propósito. O estado final da foto é só
+   drop-shadow(); listas de filtro só interpolam quando uma é prefixo da
+   outra, e com o blur na frente a entrada saltaria em vez de desfocar. */
+@keyframes hero-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.96);
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6)) blur(12px);
+  }
+}
+
+/* Faixa de base, ancorada no fim: é o `align-self: end` compartilhado com o
+   rodapé que põe o botão e as barrinhas na mesma linha. */
+.hero-info {
+  grid-area: 2 / 1;
+  position: relative;
+  z-index: 2;
+  justify-self: start;
+  align-self: end;
+  max-width: min(38ch, 400px);
+}
+
+.hero-info.is-entering {
+  animation: hero-copy-in 520ms var(--ease-out) backwards;
+}
+
+@keyframes hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.hero-name {
+  margin: 0;
+  font-size: clamp(1.9rem, 3vw, 2.55rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.hero-desc {
+  max-width: 34ch;
+  margin: 14px 0 0;
+  color: var(--hero-fg-soft);
+  font-size: var(--text-md);
+  line-height: 1.6;
+}
+
+.hero-buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-top: clamp(20px, 2.4vw, 28px);
+}
+
+.hero-price {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Setas e miniaturas ganham borda própria: o palco é escuro nos dois temas.
+   Ficam sobrepostas à faixa de cima, à direita da foto. */
+.hero-aside {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 2;
+  justify-self: end;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.5vw, 20px);
+}
+
+.hero-arrows {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-arrow {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hero-line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--hero-fg);
+  transition: border-color 160ms ease;
+}
+
+.hero-arrow:hover {
+  border-color: var(--hero-fg);
+}
+
+.hero-rail {
+  display: grid;
+  gap: 10px;
+}
+
+.hero-thumb {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  border: 1px solid var(--hero-line);
+  border-radius: var(--radius);
+  background: transparent;
+  opacity: 0.5;
+  transition: opacity 160ms ease;
+}
+
+.hero-thumb:hover,
+.hero-thumb.active {
+  opacity: 1;
+}
+
+/* Mesmo gesto do link de navegação ativo: filete de 2px sob o item. */
+.hero-thumb::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--hero-accent);
+  transform: scaleX(0);
+  transition: transform 160ms ease;
+}
+
+.hero-thumb.active::after {
+  transform: scaleX(1);
+}
+
+.hero-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Divide a faixa de base com a ficha. Continua esticado na largura inteira
+   para que a promessa e as barrinhas fiquem centradas no palco — alinhadas
+   com o eixo da foto —, e não no espaço que sobra ao lado da ficha. */
+.hero-foot {
+  grid-area: 2 / 1;
+  align-self: end;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+}
+
+.hero-promise {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--hero-fg-dim);
+  font-size: var(--text-base);
+  line-height: 1.55;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hero-bars {
+  display: flex;
+  gap: 4px;
+}
+
+/* A barrinha é indicador, não barra de progresso: o carrossel não anda
+   sozinho, então não há tempo a mostrar. O botão tem 44px de alvo e só 26
+   deles aparecem. */
+.hero-bar {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+}
+
+.hero-bar span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--hero-line-dim);
+  transition: background 160ms ease;
+}
+
+.hero-bar:hover span {
+  background: var(--hero-fg-dim);
+}
+
+.hero-bar.active span {
+  background: var(--hero-accent);
+}
+
+/* ── A saída do palco ────────────────────────────────────────────────────────
+   O hero acabaria numa linha: quase-preto de um lado, papel do outro. Aqui
+   ele se dissolve. A faixa começa exatamente na cor do palco, então não
+   existe emenda a achar, e some no que quer que seja o papel do tema ativo —
+   por isso a rampa é de opaco a transparente, e não de uma cor a outra. O
+   #06080c está escrito à mão porque --stage é local ao .hero e esta faixa
+   mora fora dele; é o mesmo preto de chapa, fixo nos dois temas.
+
+   A altura é a do respiro do topo da próxima seção, e a margem negativa a faz
+   ocupar esse respiro em vez de empurrar a página: a dissolução termina onde
+   o primeiro título começa, sem nunca passar um véu por cima de texto.
+
+   A rampa é curva de propósito. Metade da opacidade cai no primeiro terço,
+   onde ninguém procura borda, e o último terço é sussurro — numa rampa linear
+   dá para ver onde o gradiente começou.
+   ───────────────────────────────────────────────────────────────────────── */
+.hero-hem {
+  --hem: var(--section);
+
+  position: relative;
+  height: var(--hem);
+  margin-bottom: calc(var(--hem) * -1);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 8, 12, 1) 0%,
+    rgba(6, 8, 12, 0.86) 18%,
+    rgba(6, 8, 12, 0.6) 38%,
+    rgba(6, 8, 12, 0.32) 60%,
+    rgba(6, 8, 12, 0.11) 80%,
+    rgba(6, 8, 12, 0) 100%
+  );
+}
+
+/* O mesmo grão do palco, com a mesma densidade no topo — é o que faz a faixa
+   começar na textura exata em que o hero termina, sem degrau — e descendo
+   pela máscara na mesma curva do preto, para não sobrar ruído sobre o papel. */
+.hero-hem::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: var(--grain);
+  background-size: 140px 140px;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.86) 18%,
+    rgba(0, 0, 0, 0.6) 38%,
+    rgba(0, 0, 0, 0.32) 60%,
+    rgba(0, 0, 0, 0.11) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    #000 0%,
+    rgba(0, 0, 0, 0.86) 18%,
+    rgba(0, 0, 0, 0.6) 38%,
+    rgba(0, 0, 0, 0.32) 60%,
+    rgba(0, 0, 0, 0.11) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* ── Botões ──────────────────────────────────────────────────────────────── */
+.button {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-size: var(--text-base);
+  font-weight: 700;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.button-primary {
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.button-primary:hover {
+  background: var(--brand-hover);
+}
+
+.button-outline {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--ink);
+}
+
+.button-outline:hover {
+  border-color: var(--ink);
+}
+
+.button-light {
+  background: var(--white);
+  color: var(--button-light-fg);
+}
+
+.button-light:hover {
+  background: #f0ebe7;
+}
+
+.button-icon {
+  width: 17px;
+  height: 17px;
+  flex: none;
+  transition: transform 200ms var(--ease-out);
+}
+
+.hero-add {
+  min-height: 54px;
+  padding-inline: 26px;
+  font-size: var(--text-md);
+}
+
+.hero-add:hover .button-icon {
+  transform: translateX(3px);
+}
+
+/* ── Cardápio ────────────────────────────────────────────────────────────── */
+.section {
+  padding: var(--section) 0 0;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.section-heading h2,
+.craft-copy h2,
+.visit-grid h2 {
+  margin: 0;
+  font-size: clamp(1.9rem, 3vw, 2.55rem);
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+
+.section-heading > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-base);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Filtros: cada categoria mostra o que existe dentro dela. */
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 34px;
+}
+
+.category-button {
+  display: grid;
+  justify-items: center;
+  gap: 13px;
+  padding: 18px 10px 16px;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-wrap: balance;
+  /* "Acompanhamentos" é uma palavra só e não cabe no cartão estreito. */
+  hyphens: auto;
+  overflow-wrap: break-word;
+  transition: border-color 160ms ease, color 160ms ease;
+}
+
+.category-button img {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.category-button:hover {
+  border-color: var(--border);
+}
+
+.category-button.active {
+  border-color: var(--brand);
+  color: var(--brand-text);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(26px, 2.6vw, 38px) clamp(20px, 2vw, 28px);
+}
+
+/* Sem cartão: a foto ancora o item e o espaço faz a separação. */
+.product-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image {
+  position: relative;
+  aspect-ratio: 1.25;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.product-item h3 {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+.product-price {
+  flex: none;
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.product-description {
+  margin: 7px 0 16px;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+/* margin-top: auto alinha o botão de todos os itens na base da linha da
+   grade; a margem da descrição garante o respiro quando não sobra folga. */
+.add-button {
+  min-height: 44px;
+  width: 100%;
+  margin-top: auto;
+  padding-inline: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--ink);
+  font-size: var(--text-base);
+  font-weight: 700;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.add-button:hover {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--on-brand);
+}
+
+.quantity-control {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.quantity-control button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.quantity-control button:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.quantity-control .icon {
+  width: 15px;
+  height: 15px;
+}
+
+.quantity-control span {
+  min-width: 26px;
+  text-align: center;
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty-state {
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.empty-state strong {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.empty-state p {
+  margin: 10px 0 24px;
+  color: var(--muted);
+}
+
+/* ── Nosso preparo ───────────────────────────────────────────────────────── */
+.craft-section {
+  margin-top: var(--section);
+  padding: var(--section) 0;
+  background: var(--dark);
+  color: var(--white);
+}
+
+.craft-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(400px, 1.1fr);
+  gap: clamp(48px, 8vw, 110px);
+  align-items: center;
+}
+
+.craft-copy h2 {
+  max-width: 560px;
+  font-size: clamp(2.2rem, 4vw, 3.6rem);
+}
+
+.craft-copy > p {
+  max-width: 52ch;
+  margin: 24px 0 0;
+  color: var(--craft-copy);
+  line-height: 1.7;
+}
+
+.craft-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.craft-list li {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--craft-border);
+}
+
+.craft-list li:first-child {
+  border-top: 1px solid var(--craft-border);
+}
+
+.craft-list strong {
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.craft-list p {
+  max-width: 52ch;
+  margin: 7px 0 0;
+  color: var(--craft-copy-soft);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}
+
+/* ── Promoção ────────────────────────────────────────────────────────────── */
+.promo-section {
+  padding-top: var(--section);
+}
+
+.promo-card {
+  position: relative;
+  min-height: 390px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--promo-fallback);
+}
+
+.promo-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--promo-overlay);
+}
+
+.promo-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+  padding: clamp(32px, 4vw, 56px);
+  color: var(--white);
+}
+
+.promo-copy h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.promo-copy p {
+  max-width: 46ch;
+  margin: 18px 0 28px;
+  line-height: 1.65;
+}
+
+/* ── Visita ──────────────────────────────────────────────────────────────── */
+.visit-section {
+  padding: var(--section) 0;
+}
+
+.visit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: end;
+  padding: 44px 0 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.visit-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.visit-details p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.65;
+}
+
+.visit-details strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ── Rodapé ──────────────────────────────────────────────────────────────── */
+.site-footer {
+  border-top: 1px solid var(--footer-top-border);
+  background: var(--dark);
+  color: var(--white);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.65fr 0.95fr 1.25fr;
+  gap: 52px;
+  padding: 64px 0 50px;
+}
+
+.brand-light {
+  color: var(--white);
+}
+
+.brand-light .brand-logo {
+  width: 184px;
+}
+
+.footer-about > p,
+.newsletter > p {
+  margin: 18px 0 0;
+  color: var(--footer-copy);
+  font-size: var(--text-base);
+  line-height: 1.6;
+}
+
+.footer-column {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-column strong,
+.newsletter > strong {
+  margin-bottom: 5px;
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.footer-column a,
+.footer-column span {
+  color: var(--footer-copy);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+.footer-column a:hover {
+  color: var(--white);
+}
+
+.newsletter form {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.newsletter input {
+  min-width: 0;
+  height: 46px;
+  flex: 1;
+  padding: 0 13px;
+  border: 1px solid var(--footer-border);
+  border-radius: var(--radius);
+  outline: 0;
+  background: var(--footer-surface);
+  color: white;
+  font-size: var(--text-md);
+}
+
+.newsletter input::placeholder {
+  color: var(--muted-light);
+}
+
+.newsletter .button {
+  min-height: 46px;
+  padding-inline: 16px;
+}
+
+.newsletter > small {
+  display: block;
+  margin-top: 10px;
+  color: var(--footer-copy);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0 34px;
+  border-top: 1px solid var(--footer-border);
+  color: var(--footer-copy);
+  font-size: var(--text-xs);
+}
+
+.footer-address {
+  max-width: 58ch;
+  margin: 0;
+  font-style: normal;
+  line-height: 1.5;
+  text-align: right;
+}
+
+/* ── Sacola ──────────────────────────────────────────────────────────────── */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--backdrop);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.drawer-backdrop.visible {
+  opacity: 1;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 90;
+  width: min(450px, 100%);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 27px;
+  overflow-y: auto;
+  transform: translateX(102%);
+  background: var(--paper);
+  box-shadow: var(--shadow-drawer);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cart-drawer.open {
+  transform: translateX(0);
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.cart-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.04em;
+}
+
+.drawer-close {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  color: var(--muted);
+  transition: color 160ms ease, background 160ms ease;
+}
+
+.drawer-close:hover {
+  background: var(--surface);
+  color: var(--ink);
+}
+
+/* Região de entrega: mora na sacola, onde a taxa que ela define aparece.
+   O <select> nativo cobre a etiqueta inteira com opacidade zero — assim o
+   toque abre a lista do sistema e o desenho continua sendo o nosso. */
+.cart-region {
+  position: relative;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+
+.cart-region:hover,
+.cart-region:focus-within {
+  border-color: var(--ink);
+}
+
+.cart-region > .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--brand-text);
+}
+
+.cart-region-caret {
+  width: 16px;
+  height: 16px;
+  color: var(--muted-light);
+}
+
+.cart-region select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.location-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.location-copy small,
+.location-copy strong {
+  display: block;
+}
+
+.location-copy small {
+  margin-bottom: 3px;
+  color: var(--muted-light);
+  font-size: var(--text-xs);
+}
+
+.location-copy strong {
+  overflow: hidden;
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-lines {
+  display: grid;
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 58px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.cart-line img {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+}
+
+.cart-line-info {
+  min-width: 0;
+}
+
+.cart-line-info strong {
+  display: block;
+  overflow: hidden;
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-line-info span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: var(--text-base);
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-line .quantity-control span {
+  min-width: 22px;
+}
+
+.cart-empty {
+  margin: auto 0;
+  padding: 50px 0;
+  text-align: center;
+}
+
+.cart-empty strong {
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.cart-empty p {
+  max-width: 32ch;
+  margin: 10px auto 22px;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.55;
+}
+
+.cart-checkout {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+.coupon-form {
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-form input {
+  min-width: 0;
+  height: 46px;
+  flex: 1;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  outline: 0;
+  background: var(--surface);
+  color: var(--ink);
+  text-transform: uppercase;
+  font-size: var(--text-md);
+}
+
+/* O campo sobe para caixa alta, mas a dica não: "Cupom (MASTER20)" precisa
+   continuar lendo como instrução, e não como um código já digitado. */
+.coupon-form input::placeholder {
+  color: var(--muted-light);
+  text-transform: none;
+}
+
+.coupon-form button {
+  min-height: 44px;
+  padding: 0 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: var(--text-base);
+  font-weight: 700;
+  transition: border-color 160ms ease;
+}
+
+.coupon-form button:hover {
+  border-color: var(--ink);
+}
+
+/* Altura reservada: a mensagem aparece e some sem empurrar o resumo. */
+.coupon-feedback {
+  min-height: 17px;
+  margin: 8px 0 0;
+  color: var(--green);
+  font-size: var(--text-base);
+}
+
+.coupon-feedback.error {
+  color: var(--danger);
+}
+
+.cart-summary {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.cart-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: var(--muted);
+  font-size: var(--text-base);
+}
+
+.cart-summary dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-summary #discount-row dd {
+  color: var(--green);
+}
+
+.cart-summary .cart-total {
+  align-items: baseline;
+  margin-top: 2px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  color: var(--ink);
+  font-size: var(--text-md);
+  font-weight: 700;
+}
+
+.cart-summary .cart-total dd {
+  font-size: var(--text-xl);
+  letter-spacing: -0.04em;
+}
+
+.checkout-button {
+  width: 100%;
+}
+
+.checkout-feedback {
+  min-height: 2.8em;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.cart-checkout > small {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+
+/* ── Aviso flutuante ─────────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 120;
+  transform: translateX(-50%);
+  max-width: min(90vw, 420px);
+  padding: 13px 20px;
+  border: 1px solid var(--toast-border);
+  border-radius: var(--radius);
+  background: var(--toast-bg);
+  color: var(--toast-fg);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-align: center;
+  animation: toast-in 220ms var(--ease-out);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ═══ Telas estreitas ════════════════════════════════════════════════════════
+   Três paradas, cada uma resolvendo um problema medido, não um número redondo.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1050px) {
+  /* Daqui para baixo a ficha e a promessa não cabem lado a lado sem se
+     tocarem (medido: elas se sobrepõem já em 830px). A linha de base
+     compartilhada é um luxo de tela larga; aqui o rodapé desce para a sua
+     própria faixa e a ficha continua ancorada logo acima dele. */
+  .hero-stage {
+    grid-template-rows: minmax(0, 1fr) auto auto;
+  }
+
+  .hero-foot {
+    grid-area: 3 / 1;
+  }
+
+  /* A foto continua centrada; a ficha encolhe para não encostar nela. */
+  .hero-photos {
+    height: min(44vh, 370px);
+  }
+
+  .hero-info {
+    max-width: min(27ch, 270px);
+  }
+
+  .hero-thumb {
+    width: 76px;
+    height: 76px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.2fr 0.8fr 1fr;
+  }
+
+  .newsletter {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 820px) {
+  .header-inner {
+    min-height: 70px;
+    gap: 10px;
+  }
+
+  .menu-toggle {
+    display: grid;
+  }
+
+  .header-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 24px 18px;
+    background: var(--header-bg-solid);
+    box-shadow: var(--shadow-sm);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .header-menu.open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  /* Aberta a gaveta, a busca é o primeiro item: quem abre o menu no celular
+     costuma estar procurando um lanche, não uma seção. */
+  .header-search {
+    order: -1;
+    width: 100%;
+    height: 48px;
+    margin-left: 0;
+    margin-bottom: 6px;
+  }
+
+  .header-search:focus-within {
+    width: 100%;
+  }
+
+  .main-nav {
+    display: grid;
+    gap: 0;
+    justify-content: start;
+    justify-items: start;
+  }
+
+  .main-nav a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 13px 0;
+  }
+
+  .main-nav a::after {
+    display: none;
+  }
+
+  .cart-copy {
+    display: none;
+  }
+
+  .cart-badge:not([hidden]) {
+    display: grid;
+  }
+
+  .hero {
+    min-height: 0;
+    padding-top: 34px;
+  }
+
+  /* Empilhado de vez: cada peça ganha a sua faixa no palco, na ordem em que
+     se lê — foto, ficha, controles, rodapé. */
+  .hero-stage {
+    grid-template-rows: auto auto auto auto;
+    gap: clamp(20px, 4.6vw, 30px);
+  }
+
+  /* Empilhado, as quatro faixas são automáticas e a sobra da dobra se
+     repartiria igualmente entre elas — afrouxando a ficha e os controles em
+     vez de dar palco ao hambúrguer. Com o palco esticado, a primeira faixa
+     passa a ser a elástica e fica com tudo. */
+  .hero-scroll.is-staged .hero-stage {
+    grid-template-rows: minmax(0, 1fr) auto auto auto;
+  }
+
+  /* E o hambúrguer cresce com ela: num palco de tela cheia, o teto fixo de
+     360px o deixaria pequeno no meio do próprio espaço. */
+  .hero-scroll.is-staged .hero-photos {
+    height: clamp(300px, 40svh, 460px);
+  }
+
+  .hero-frame {
+    grid-area: 1 / 1;
+  }
+
+  .hero-title,
+  .hero-photos {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  /* O letreiro de fundo é um luxo de tela larga: empilhado, ele disputa a
+     leitura com a foto em vez de emoldurá-la. O h1 permanece — o nome da casa
+     continua no texto sr-only dentro dele. */
+  .hero-title {
+    width: auto;
+  }
+
+  .hero-wordmark {
+    display: none;
+  }
+
+  .hero-photos {
+    height: min(42vh, 360px);
+  }
+
+  .hero-info {
+    grid-area: 2 / 1;
+    justify-self: center;
+    align-self: start;
+    max-width: 44ch;
+    text-align: center;
+  }
+
+  .hero-desc {
+    margin-inline: auto;
+  }
+
+  .hero-buy {
+    justify-content: center;
+  }
+
+  .hero-aside {
+    grid-area: 3 / 1;
+    justify-self: center;
+    align-self: start;
+  }
+
+  .hero-foot {
+    grid-area: 4 / 1;
+  }
+
+  .hero-arrows,
+  .hero-rail {
+    grid-auto-flow: column;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Seis colunas não cabem: vira trilho que sangra até a borda da tela. */
+  .category-list {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 134px;
+    gap: 10px;
+    margin-inline: -24px;
+    padding: 6px 24px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scroll-padding-inline: 24px;
+  }
+
+  .category-button img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .craft-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .visit-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-about,
+  .newsletter {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: min(calc(100% - 32px), var(--container));
+  }
+
+  .brand-logo {
+    width: 126px;
+  }
+
+  .brand-light .brand-logo {
+    width: 164px;
+  }
+
+  .cart-button {
+    min-height: 44px;
+    padding: 6px 8px;
+  }
+
+  .hero {
+    padding: 24px 0 28px;
+  }
+
+  .hero-photos {
+    height: min(38vh, 300px);
+  }
+
+  .hero-scroll.is-staged .hero-photos {
+    height: clamp(260px, 36svh, 400px);
+  }
+
+  .hero-buy {
+    gap: 14px;
+  }
+
+  /* Preço numa linha, botão na outra e em largura cheia: o alvo principal da
+     dobra não disputa espaço com um número de seis caracteres. */
+  .hero-add {
+    flex: 1 1 100%;
+  }
+
+  .hero-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+  }
+
+  .section-heading > p {
+    display: none;
+  }
+
+  /* Quatro categorias inteiras cabem na tela e a quinta aparece pela borda —
+     é esse filete que avisa que o trilho corre. A largura da coluna sai da
+     viewport, não de um valor fixo, para o mesmo enquadramento valer de 320px
+     a 560px. */
+  .category-list {
+    --rail-gap: 8px;
+    --rail-peek: 24px;
+    grid-auto-columns: calc(
+      (100vw - 32px - 3 * var(--rail-gap) - var(--rail-peek)) / 4
+    );
+    gap: var(--rail-gap);
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scroll-padding-inline: 16px;
+  }
+
+  /* "Acompanhamentos" hifeniza em três linhas e estica a fileira inteira; o
+     align-content centra os rótulos curtos na altura resultante em vez de
+     deixá-los pendurados no alto. O corpo desce de Base para XS conforme a
+     coluna encolhe, para "Clássicos" não quebrar no meio abaixo de 418px. */
+  .category-button {
+    align-content: center;
+    gap: 9px;
+    padding: 12px 5px 11px;
+    font-size: clamp(var(--text-xs), 3.35vw, var(--text-base));
+    line-height: 1.2;
+  }
+
+  .category-button img {
+    width: clamp(42px, 13.2vw, 58px);
+    height: clamp(42px, 13.2vw, 58px);
+  }
+
+  /* Dois por linha: a tela passa a mostrar quatro produtos de uma vez em vez
+     de um e meio. A foto larga de 1,25 existia porque a coluna era metade da
+     página; com a coluna pela metade de novo ela volta a ser quase quadrada. */
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 14px;
+  }
+
+  .product-image {
+    aspect-ratio: 1.1;
+  }
+
+  /* Numa coluna de ~170px não há linha de base compartilhada que caiba: o
+     preço desce para baixo do nome em vez de espremê-lo em duas linhas. */
+  .product-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    margin-top: 12px;
+  }
+
+  .product-description {
+    margin: 6px 0 14px;
+  }
+
+  .promo-card {
+    min-height: 480px;
+    align-items: flex-end;
+  }
+
+  .promo-card > img {
+    object-position: 62% center;
+  }
+
+  .promo-overlay {
+    background: var(--promo-overlay-mobile);
+  }
+
+  .promo-copy {
+    padding: 30px 24px;
+  }
+
+  .promo-copy h2 {
+    font-size: 2.25rem;
+  }
+
+  .visit-details {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+    padding-top: 50px;
+  }
+
+  .footer-about,
+  .newsletter {
+    grid-column: auto;
+  }
+
+  .newsletter form {
+    flex-direction: column;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .footer-address {
+    text-align: left;
+  }
+
+  .cart-drawer {
+    padding: 22px 18px;
+  }
+}
+
+/* ═══ Movimento ══════════════════════════════════════════════════════════════
+   Tese: o cardápio recompõe. Esse é o momento com autoria; o resto é feedback
+   ou continuidade. Curva e durações são as mesmas do resto do site — o
+   movimento não inventa vocabulário próprio.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Entradas: só existem com JS. Sem script, o conteúdo nasce visível — esconder
+   com CSS o que só o JS pode revelar é apostar a página inteira num arquivo. */
+.js-motion [data-enter] {
+  opacity: 0;
+}
+
+.js-motion [data-enter="rise"] {
+  transform: translateY(18px);
+}
+
+.js-motion [data-enter="settle"] {
+  transform: scale(1.015);
+}
+
+.js-motion [data-enter].is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-enter) var(--ease-out) var(--enter-delay, 0ms),
+    transform var(--dur-enter) var(--ease-out) var(--enter-delay, 0ms);
+}
+
+/* Momento focal: a recomposição do cardápio ao filtrar ou buscar. */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+/* Só os sete primeiros escalonam. Do oitavo em diante todos partem juntos, no
+   atraso máximo: uma fila de doze em cascata viraria espera, não entrada. */
+.js-motion .product-item {
+  --i: 7;
+  animation: card-in 460ms var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+.js-motion .product-item:nth-child(1) { --i: 0; }
+.js-motion .product-item:nth-child(2) { --i: 1; }
+.js-motion .product-item:nth-child(3) { --i: 2; }
+.js-motion .product-item:nth-child(4) { --i: 3; }
+.js-motion .product-item:nth-child(5) { --i: 4; }
+.js-motion .product-item:nth-child(6) { --i: 5; }
+.js-motion .product-item:nth-child(7) { --i: 6; }
+
+/* A foto respira dentro do próprio quadro; o quadro não se mexe. */
+.product-image img {
+  transition: transform 620ms var(--ease-out);
+}
+
+.product-item:hover .product-image img,
+.product-item:focus-within .product-image img {
+  transform: scale(1.045);
+}
+
+/* Controles: cor para estado, compressão curta para o toque. */
+.button,
+.add-button,
+.cart-button,
+.icon-button,
+.hero-arrow {
+  transition:
+    background var(--dur-state) ease,
+    border-color var(--dur-state) ease,
+    color var(--dur-state) ease,
+    transform var(--dur-tap) var(--ease-out);
+}
+
+.button:active,
+.add-button:active,
+.cart-button:active,
+.icon-button:active,
+.hero-arrow:active {
+  transform: scale(0.975);
+}
+
+/* Confirmação em dois lugares: no ponto do clique e na sacola, que é para
+   onde o item foi. */
+.button-primary.is-added {
+  background: var(--brand-hover);
+}
+
+.add-button.is-added {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+@keyframes badge-bump {
+  0% { transform: scale(1); }
+  38% { transform: scale(1.24); }
+  100% { transform: scale(1); }
+}
+
+.cart-badge.is-bumped {
+  animation: badge-bump 420ms var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Movimento espacial sai. Cor e opacidade ficam, porque confirmam ações. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .js-motion [data-enter],
+  .product-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* O salão para num quadro escolhido, não no primeiro: a foto continua lá,
+     no meio da respiração, e o hero não perde a profundidade. */
+  .hero-room-plate {
+    animation: none;
+    transform: scale(1.08);
+  }
+
+  .hero-room-soft {
+    opacity: 0.34;
+  }
+
+  .product-image img,
+  .button,
+  .add-button,
+  .cart-button,
+  .icon-button,
+  .hero-arrow {
+    transform: none !important;
+  }
+
+  .button,
+  .add-button,
+  .cart-button,
+  .icon-button {
+    transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+  }
+
+  .cart-drawer,
+  .drawer-backdrop {
+    transition-duration: 140ms;
+  }
+}

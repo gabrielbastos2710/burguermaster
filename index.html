@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Burguer Master — hambúrguer artesanal, pão da casa e entrega rápida em Curitiba."
+    />
+    <meta name="theme-color" content="#111419" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <title>Burguer Master | Artesanal de verdade</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- A foto do primeiro destaque é o LCP da página: ela desce antes da
+         folha de estilo, com as duas larguras e a prioridade alta declaradas
+         aqui, e não quando o parser enfim chegar ao <img> lá embaixo. -->
+    <link
+      rel="preload"
+      as="image"
+      href="images/webp/hero-cheddar-bacon.webp"
+      imagesrcset="images/webp/hero-cheddar-bacon-640.webp 640w, images/webp/hero-cheddar-bacon.webp 1000w"
+      imagesizes="(max-width: 820px) 72vw, 480px"
+      fetchpriority="high"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <svg class="brand-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <!-- O símbolo: mancha vermelha de cantos cortados à mão com o M da casa
+           por cima. Mesmo desenho do favicon e do apple-touch-icon. -->
+      <symbol id="master-mark" viewBox="0 0 200 198"><path fill="#f92a26" d="M28.4 0 190.2 9.6 200 88.4 171.6 171.2 84.8 198 9.6 178.4 0 86.4Z" /><path fill="#1b1816" transform="translate(42.4 40) scale(0.62)" d="M0 0h62l31 118L124 0h62v200h-44V71l-30 129H74L44 71v129H0Z" /></symbol>
+      <!-- O wordmark. Duas linhas porque o nome tem o dobro das letras de um
+           logotipo curto: numa linha só, o peso das hastes cairia pela metade
+           para o conjunto ainda caber na largura do palco. -->
+      <symbol id="master-word" viewBox="0 0 1184.5 440">
+        <g fill="currentColor">
+          <path transform="translate(0 0)" d="M0 0H98c32 0 52 19 52 48 0 21-11 37-28 44 20 7 31 25 31 47 0 34-23 61-59 61H0Z M46 38v44h46c14 0 22-8 22-22s-8-22-22-22Z M46 120v42h49c14 0 23-9 23-21s-9-21-23-21Z" />
+          <path transform="translate(173.25 0)" d="M0 0h46v126c0 21 11 31 30 31s30-10 30-31V0h46v128c0 45-31 72-76 72S0 173 0 128Z" />
+          <path transform="translate(345.5 0)" d="M0 0h96c37 0 56 22 56 58 0 27-13 46-35 54l39 88h-50l-32-82H46v82H0Z M46 38v44h45c14 0 22-8 22-22s-8-22-22-22Z" />
+          <path transform="translate(521.75 0)" d="M156 97v103h-36l-5-23c-12 16-29 23-48 23C27 200 0 160 0 100 0 39 30 0 80 0c39 0 66 21 75 58l-45 12c-5-21-15-30-29-30-22 0-34 21-34 60s12 61 34 61c17 0 29-10 31-27H75V97Z" />
+          <path transform="translate(698 0)" d="M0 0h46v126c0 21 11 31 30 31s30-10 30-31V0h46v128c0 45-31 72-76 72S0 173 0 128Z" />
+          <path transform="translate(870.25 0)" d="M0 0h136v40H46v38h76v38H46v44h92v40H0Z" />
+          <path transform="translate(1028.5 0)" d="M0 0h96c37 0 56 22 56 58 0 27-13 46-35 54l39 88h-50l-32-82H46v82H0Z M46 38v44h45c14 0 22-8 22-22s-8-22-22-22Z" />
+          <path transform="translate(66.63 240)" d="M0 0h62l31 118L124 0h62v200h-44V71l-30 129H74L44 71v129H0Z" />
+          <path transform="translate(272.88 240)" d="M60 0h48l60 200h-48l-10-40H58l-10 40H0Z M66 152h36L84 66Z" />
+          <path transform="translate(461.13 240)" d="M12 133l44-11c4 26 14 39 31 39 14 0 23-8 23-18 0-12-10-18-34-26l-15-5C34 100 9 79 9 49 9 19 35 0 73 0c38 0 63 21 69 55l-44 11c-4-19-12-28-24-28s-21 7-21 16c0 10 9 16 31 24l16 5c34 11 52 31 52 63 0 34-26 54-64 54-40 0-69-23-76-67Z" />
+          <path transform="translate(633.38 240)" d="M0 0h150v42H98v158H52V42H0Z" />
+          <path transform="translate(803.63 240)" d="M0 0h136v40H46v38h76v38H46v44h92v40H0Z" />
+          <path transform="translate(961.88 240)" d="M0 0h96c37 0 56 22 56 58 0 27-13 46-35 54l39 88h-50l-32-82H46v82H0Z M46 38v44h45c14 0 22-8 22-22s-8-22-22-22Z" />
+        </g>
+      </symbol>
+    </svg>
+
+    <svg class="icon-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4.6 12h14.1" />
+        <path d="m12.8 6.1 5.9 5.9-5.9 5.9" />
+      </symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.6 6.1 8.7 12l5.9 5.9" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m9.4 6.1 5.9 5.9-5.9 5.9" />
+      </symbol>
+      <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m6.6 9.6 5.4 5.3 5.4-5.3" />
+      </symbol>
+      <symbol id="icon-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5.5 8.1h13l.9 12.4H4.6Z" />
+        <path d="M9 10.6V7.5a3 3 0 0 1 6 0v3.1" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="6.4" />
+        <path d="m15.7 15.7 4.1 4.1" />
+      </symbol>
+      <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 21.1s6.3-5.9 6.3-10.4a6.3 6.3 0 1 0-12.6 0c0 4.5 6.3 10.4 6.3 10.4Z" />
+        <circle cx="12" cy="10.6" r="2.4" />
+      </symbol>
+      <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6.6 6.6 17.4 17.4" />
+        <path d="M17.4 6.6 6.6 17.4" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 6.3v11.4" />
+        <path d="M6.3 12h11.4" />
+      </symbol>
+      <symbol id="icon-minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6.3 12h11.4" />
+      </symbol>
+    </svg>
+
+    <header class="site-header" id="inicio">
+      <div class="container header-inner">
+        <a class="brand" href="#inicio" aria-label="Burguer Master — início">
+          <img
+            class="brand-logo"
+            src="images/webp/master-logo.webp"
+            alt=""
+            width="1184"
+            height="458"
+          />
+        </a>
+
+        <button
+          class="icon-button menu-toggle"
+          type="button"
+          aria-label="Abrir menu"
+          aria-controls="main-nav"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+
+        <div class="header-menu" id="main-nav">
+          <nav class="main-nav" aria-label="Navegação principal">
+            <a class="active" href="#inicio">Início</a>
+            <a href="#cardapio">Cardápio</a>
+            <a href="#diferenciais">Nosso preparo</a>
+          </nav>
+
+          <form class="header-search" id="search-form" role="search">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-search" /></svg>
+            <label class="sr-only" for="search-input">Buscar no cardápio</label>
+            <input
+              id="search-input"
+              type="search"
+              placeholder="Buscar no cardápio"
+              autocomplete="off"
+            />
+          </form>
+        </div>
+
+        <button class="cart-button" type="button" data-cart-toggle aria-label="Abrir sacola">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-bag" /></svg>
+          <span class="cart-copy">
+            <strong id="header-cart-count">Sacola vazia</strong>
+            <small id="header-cart-total">R$ 0,00</small>
+          </span>
+          <span class="cart-badge" id="cart-badge" aria-hidden="true">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <!-- O trilho da abertura. A altura extra que .hero-scroll-fuel
+           acrescenta é o único combustível da sequência: enquanto ela é
+           consumida, o hero fica grudado no topo e só o hambúrguer se move.
+           Fechada a volta, o grude solta e a página segue. O trilho só
+           ganha altura com a classe .is-armed, que o script põe depois de
+           carregar os quadros — sem script, sem quadros ou com movimento
+           reduzido o wrapper é transparente para o layout. -->
+      <div class="hero-scroll" data-hero-scroll>
+        <section
+          class="hero"
+          aria-roledescription="carrossel"
+          aria-label="Destaques do cardápio"
+        >
+          <!-- O salão ao fundo. Duas cópias da mesma foto, uma menos e outra
+               mais borrada: o que respira é a mistura entre as duas, não um
+               filtro recalculado por quadro. Ver .hero-room em styles.css. -->
+          <div class="hero-room" aria-hidden="true">
+            <div class="hero-room-plate hero-room-deep"></div>
+            <div class="hero-room-plate hero-room-soft"></div>
+            <div class="hero-room-veil"></div>
+            <div class="hero-room-grain"></div>
+          </div>
+
+          <!-- Camada da fumaça: só aqui, recortada pelo overflow do hero e
+               abaixo de tudo que a seção mostra. hero-smoke.js a preenche. -->
+          <div class="hero-smoke" data-hero-smoke aria-hidden="true"></div>
+
+          <div class="container hero-stage">
+            <div class="hero-frame">
+              <h1 class="hero-title">
+                <span class="sr-only">Burguer Master — hambúrguer artesanal na chapa, em Curitiba</span>
+                <svg class="hero-wordmark" viewBox="0 0 1184.5 440" aria-hidden="true" focusable="false">
+                  <use href="#master-word" />
+                </svg>
+              </h1>
+
+              <div class="hero-photos">
+                <canvas
+                  class="hero-burger-canvas"
+                  data-hero-burger-canvas
+                  width="1440"
+                  height="1440"
+                  aria-hidden="true"
+                ></canvas>
+                <img
+                  class="hero-photo is-active"
+                  data-hero-item="2"
+                  data-thumb="images/webp/thumb-cheddar-bacon.webp"
+                  src="images/webp/hero-cheddar-bacon.webp"
+                  srcset="images/webp/hero-cheddar-bacon-640.webp 640w, images/webp/hero-cheddar-bacon.webp 1000w"
+                  sizes="(max-width: 820px) 72vw, 480px"
+                  alt="Cheddar Bacon do Master: blend de 180 g com cheddar derretido, bacon, cebola caramelizada, tomate e rúcula no pão brioche com gergelim"
+                  width="1000"
+                  height="1060"
+                  fetchpriority="high"
+                />
+                <img
+                  class="hero-photo"
+                  data-hero-item="3"
+                  data-thumb="images/webp/thumb-smash-duplo.webp"
+                  src="images/webp/hero-smash-duplo.webp"
+                  srcset="images/webp/hero-smash-duplo-640.webp 640w, images/webp/hero-smash-duplo.webp 1000w"
+                  sizes="(max-width: 820px) 72vw, 480px"
+                  alt="Smash Duplo do Master: dois hambúrgueres smash com queijo derretido entre as carnes, no pão brioche dourado"
+                  width="1000"
+                  height="1060"
+                  aria-hidden="true"
+                />
+                <img
+                  class="hero-photo"
+                  data-hero-item="5"
+                  data-thumb="images/webp/thumb-picante.webp"
+                  src="images/webp/hero-picante.webp"
+                  srcset="images/webp/hero-picante-640.webp 640w, images/webp/hero-picante.webp 1000w"
+                  sizes="(max-width: 820px) 72vw, 480px"
+                  alt="Picante da Casa: blend com cheddar, pimentas vermelhas, jalapeños e maionese picante no pão brioche"
+                  width="1000"
+                  height="1060"
+                  aria-hidden="true"
+                />
+              </div>
+
+            </div>
+
+            <!-- Ficha e controles são irmãos do frame, não filhos: o frame guarda
+                 só o letreiro e a foto, na faixa de cima do palco. A ficha desce
+                 para a faixa de base, onde termina na mesma linha do rodapé. A
+                 ordem do código mantém o foco em ficha → controles → barras. -->
+            <div class="hero-info" aria-live="polite">
+              <h2 class="hero-name" id="hero-name">Cheddar Bacon</h2>
+              <p class="hero-desc" id="hero-desc">
+                Cheddar cremoso, bacon crocante e cebola caramelizada.
+              </p>
+              <div class="hero-buy">
+                <p class="hero-price" id="hero-price">R$ 38,50</p>
+                <button class="button button-primary hero-add" type="button" id="hero-add">
+                  Adicionar à sacola<span class="sr-only" id="hero-add-item"> — Cheddar Bacon</span>
+                  <svg class="button-icon" aria-hidden="true" focusable="false"><use href="#icon-arrow-right" /></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-aside">
+              <div class="hero-arrows">
+                <button class="hero-arrow" type="button" data-hero-step="-1" aria-label="Destaque anterior">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-chevron-left" /></svg>
+                </button>
+                <button class="hero-arrow" type="button" data-hero-step="1" aria-label="Próximo destaque">
+                  <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-chevron-right" /></svg>
+                </button>
+              </div>
+              <div class="hero-rail" id="hero-rail"></div>
+            </div>
+            <div class="hero-foot">
+              <p class="hero-promise">
+                Blend de 180 g moído no dia, pão brioche assado na casa e batata frita na hora.
+              </p>
+              <div class="hero-bars" id="hero-bars" role="group" aria-label="Escolher destaque"></div>
+            </div>
+          </div>
+        </section>
+        <div class="hero-scroll-fuel" aria-hidden="true"></div>
+      </div>
+
+      <!-- A saída do palco: o hero não termina numa linha, ele se dissolve no
+           papel da página. Margem negativa — a faixa cobre o respiro do topo
+           da próxima seção sem empurrar nada para baixo. -->
+      <div class="hero-hem" aria-hidden="true"></div>
+
+      <section class="menu-section section" id="cardapio" aria-labelledby="menu-title" tabindex="-1">
+        <div class="container">
+          <div class="section-heading">
+            <h2 id="menu-title">Cardápio do Master</h2>
+            <p id="result-count" aria-live="polite"></p>
+          </div>
+
+          <div class="category-list" id="category-list" aria-label="Categorias do cardápio"></div>
+          <div class="product-grid" id="product-grid"></div>
+          <!-- Os doze itens são montados a partir de ITEMS, no script: é o que
+               garante que preço e descrição nunca divirjam entre cardápio,
+               hero e sacola. Sem script não há grade — então aqui fica o
+               caminho que continua funcionando, que é o telefone. -->
+          <noscript>
+            <div class="empty-state">
+              <strong>O cardápio precisa de JavaScript.</strong>
+              <p>Ligue o JavaScript para ver os doze itens — ou peça pelo telefone, que a chapa atende igual.</p>
+              <a class="button button-outline" href="tel:+554133330000">Ligar para o Master</a>
+            </div>
+          </noscript>
+          <div class="empty-state" id="empty-state" hidden>
+            <strong>Nenhum item encontrado.</strong>
+            <p>Tente outro termo ou limpe os filtros.</p>
+            <button class="button button-outline" id="clear-filters" type="button">Ver todo o cardápio</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="craft-section section" id="diferenciais" aria-labelledby="craft-title">
+        <div class="container craft-grid">
+          <div class="craft-copy">
+            <h2 id="craft-title">Sem atalhos entre o fogo e a primeira mordida.</h2>
+            <p>
+              Ingredientes preparados no dia, montagem só depois do pedido e uma chapa bem quente.
+              É assim que cada Master sai suculento por dentro e tostado por fora.
+            </p>
+          </div>
+          <ul class="craft-list">
+            <li><strong>Carne fresca</strong><p>Blend de 180g moído todos os dias.</p></li>
+            <li><strong>Pão da casa</strong><p>Brioche leve, dourado e assado no mesmo dia.</p></li>
+            <li><strong>Entrega direta</strong><p>Embalagem pensada para chegar quente e crocante.</p></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="promo-section section" aria-labelledby="promo-title">
+        <div class="container">
+          <div class="promo-card">
+            <img src="images/webp/promo-master-red.webp" alt="Combo promocional do Burguer Master" width="1916" height="821" loading="lazy" />
+            <div class="promo-overlay"></div>
+            <div class="promo-copy">
+              <h2 id="promo-title">Segunda carne por conta da casa.</h2>
+              <p>
+                Toda terça, qualquer burger clássico vira duplo sem custo. No primeiro pedido,
+                use <strong>MASTER20</strong> e ganhe 20% OFF.
+              </p>
+              <a class="button button-light" href="#cardapio">Aproveitar agora</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="visit-section" aria-labelledby="visit-title">
+        <div class="container visit-grid">
+          <div>
+            <h2 id="visit-title">Quer sentir o cheiro da chapa?</h2>
+          </div>
+          <div class="visit-details">
+            <p><strong>Rua Comendador Araújo, 100</strong> — Batel, Curitiba<br />Terça a domingo, das 18h às 23h30</p>
+            <a class="button button-outline" href="tel:+554133330000">Ligar para o Master</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-about">
+          <a class="brand brand-light" href="#inicio" aria-label="Burguer Master — início">
+            <img
+              class="brand-logo"
+              src="images/webp/master-logo.webp"
+              alt=""
+              width="1184"
+              height="458"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <p>Hamburgueria artesanal desde 2019. Carne fresca, pão da casa, fogo alto.</p>
+        </div>
+
+        <div class="footer-column">
+          <strong>Master</strong>
+          <a href="#diferenciais">Nossa história</a>
+          <a href="#cardapio">Cardápio</a>
+        </div>
+
+        <div class="footer-column">
+          <strong>Contato</strong>
+          <a href="tel:+554133330000">(41) 3333-0000</a>
+          <a href="mailto:oi@burguermaster.com.br">oi@burguermaster.com.br</a>
+          <span>Ter a dom, 18h às 23h30</span>
+        </div>
+
+        <div class="newsletter">
+          <strong>Novidades da chapa</strong>
+          <p>Receba o burger da semana e cupons antes de todo mundo.</p>
+          <form id="newsletter-form" aria-describedby="newsletter-note">
+            <label class="sr-only" for="newsletter-email">Seu e-mail</label>
+            <input id="newsletter-email" type="email" placeholder="seu@email.com" required />
+            <button class="button button-primary" type="submit">Assinar</button>
+          </form>
+          <small id="newsletter-note">Cadastros online ainda não estão disponíveis neste site.</small>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 Burguer Master. Todos os direitos reservados.</span>
+        <address class="footer-address">
+          Rua Comendador Araújo, 100 - Batel, Curitiba - PR, 80420-000
+        </address>
+      </div>
+    </footer>
+
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside
+      class="cart-drawer"
+      id="cart-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cart-title"
+      aria-hidden="true"
+      tabindex="-1"
+    >
+      <div class="cart-header">
+        <h2 id="cart-title">Sacola</h2>
+        <button class="icon-button drawer-close" type="button" data-cart-close aria-label="Fechar sacola">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-close" /></svg>
+        </button>
+      </div>
+
+      <label class="cart-region" for="location-select">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-pin" /></svg>
+        <span class="location-copy"><small>Entregar em</small><strong>Escolha sua região</strong></span>
+        <svg class="icon cart-region-caret" aria-hidden="true" focusable="false"><use href="#icon-chevron-down" /></svg>
+        <select id="location-select" aria-label="Região de entrega">
+          <option value="" selected disabled>Escolha sua região</option>
+          <option>Batel, Curitiba</option>
+          <option>Água Verde, Curitiba</option>
+          <option>Centro, Curitiba</option>
+          <option>Retirar na loja</option>
+        </select>
+      </label>
+
+      <div class="cart-lines" id="cart-lines"></div>
+      <div class="cart-empty" id="cart-empty">
+        <strong>A chapa está esperando.</strong>
+        <p>Escolha seu hambúrguer no cardápio para começar o pedido.</p>
+        <button class="button button-outline" type="button" data-cart-close data-scroll-menu>Ver cardápio</button>
+      </div>
+
+      <div class="cart-checkout" id="cart-checkout" hidden>
+        <form class="coupon-form" id="coupon-form">
+          <label class="sr-only" for="coupon-input">Cupom de desconto</label>
+          <input id="coupon-input" type="text" placeholder="Cupom (MASTER20)" />
+          <button type="submit">Aplicar</button>
+        </form>
+        <p class="coupon-feedback" id="coupon-feedback" aria-live="polite"></p>
+        <dl class="cart-summary">
+          <div><dt>Subtotal</dt><dd id="cart-subtotal">R$ 0,00</dd></div>
+          <div><dt id="cart-fee-label">Entrega</dt><dd id="cart-fee">R$ 6,90</dd></div>
+          <div id="discount-row" hidden><dt>Cupom MASTER20</dt><dd id="cart-discount">− R$ 0,00</dd></div>
+          <div class="cart-total"><dt>Total</dt><dd id="cart-total">R$ 0,00</dd></div>
+        </dl>
+        <button class="button button-primary checkout-button" id="checkout-button" type="button">Revisar pedido</button>
+        <p class="checkout-feedback" id="checkout-feedback" role="status" aria-live="polite"></p>
+        <small>Este site mostra apenas um resumo local: o pedido não é enviado por aqui.</small>
+      </div>
+    </aside>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="script.js"></script>
+    <script src="hero-smoke.js" defer></script>
+  </body>
+</html>
